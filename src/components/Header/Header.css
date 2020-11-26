@@ -3,6 +3,7 @@
     background-color: #350d36;
     padding: 4px 12px;
     align-items: center;
+    position: relative;
 }
 
 .header__searchBar {
@@ -35,18 +36,55 @@
     font-size: 14px;
 }
 
-/* .header__search > input {
-    background-color: #6c1a6d85;
-    border: 1px solid rgb(146, 142, 142);
-    border-radius: 8px;
-    padding: 4px 12px;
-    width: 100%;
-    color: white;
+.header__search:hover {
+    border: 1px solid rgb(204, 200, 200);
+    color: rgb(218, 209, 209);
 }
 
-.header__search > input:focus {
+.header__search--active {
+    position: absolute;
+    background-color: white;
+    top: 8%;
+    bottom: 8%;
+    left: 20%;
+    right: 20%;
+    z-index: 1000;
+    border: 1px solid grey;
+    border-radius: 6px;
+    transition: all 0.25s ease-in-out;
+}
+
+@media (max-width: 768px) {
+    .header__search--active {
+        left: 2%;
+        right: 2%;
+    }
+}
+
+.header__searchTop {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 4px 0;
+}
+
+.header__searchTop > input {
+    flex-grow: 0.8;
+    padding: 8px 12px;
+    margin: 0 8px;
+    border: none;
+    background-color: transparent;
+}
+
+.header__searchTop > input:focus {
     outline: none;
-} */
+}
+
+.header__searchTop > .header__searchTop--icon {
+    font-size: 20px;
+    color: grey;
+}
 
 .header__profile > .header__profileIcon {
     font-size: 40px;
