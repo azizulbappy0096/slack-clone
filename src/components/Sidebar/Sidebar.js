@@ -28,7 +28,7 @@ function Sidebar() {
     .onSnapshot(snapShot => {
       console.log(snapShot)
       snapShot.docs.map(doc => {
-        console.log(doc.data())
+        setChannelsName(prev => [...prev, doc.data().name])
       })
     })
   }, [])
@@ -48,10 +48,10 @@ function Sidebar() {
         <SidebarOption Icon={AlternateEmailIcon} title="Mentions & reactions" />
         <SidebarOption Icon={MoreVertIcon} title="More" />
         <SidebarOption Icon={KeyboardArrowDownIcon} title="Channels" />
-        <SidebarOption SubIcon={ClearAllIcon} title="developing" />
-        <SidebarOption SubIcon={ClearAllIcon} title="general" />
+        {channelsName.map(name => <SidebarOption SubIcon={ClearAllIcon} title={name} />)}
+        {/* <SidebarOption SubIcon={ClearAllIcon} title="general" />
         <SidebarOption SubIcon={ClearAllIcon} title="random" />
-        <SidebarOption SubIcon={ClearAllIcon} title="backups" />
+        <SidebarOption SubIcon={ClearAllIcon} title="backups" /> */}
         <br />
         <SidebarOption Icon={KeyboardArrowDownIcon} title="Direct messages" />
       </section>
