@@ -5,6 +5,7 @@
     align-items: center;
     position: relative;
     border-bottom: 1px solid rgb(82,38,83);
+    max-height: 7vh;
 }
 
 .header__searchBar {

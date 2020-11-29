@@ -1,0 +1,57 @@
+.chat {
+    flex: 0.9;
+    height: 93vh;
+}
+
+.chat__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    border-bottom: 1px solid rgb(201, 197, 197);
+}
+
+.chat__headerTitle > h4 {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+    cursor: pointer;
+    text-transform: lowercase;
+}
+
+.chat__headerTitle > h4 > .MuiSvgIcon-root {
+    font-size: 16px !important;
+    margin-left: 4px;
+    cursor: pointer;
+}
+
+.chat__headerTitle > h4 > .MuiSvgIcon-root:hover {
+    background-color: rgb(231, 221, 221);
+    border-radius: 4px;
+}
+
+.chat__headerTitle > p {
+    font-size: 14px;
+    cursor: pointer;
+    color: grey;
+}
+
+.chat__headerTitle > p:hover {
+    color: rgb(49, 49, 168);
+}
+
+.chat__headerInfo > .MuiSvgIcon-root{
+    font-size: 40px !important;
+    color: grey;
+    cursor: pointer;
+    padding: 8px;
+}
+
+.chat__headerInfo > .MuiSvgIcon-root:nth-child(1){
+    margin-right: 4px;
+}
+
+.chat__headerInfo > .MuiSvgIcon-root:hover{
+    background-color: rgb(231, 221, 221);
+    border-radius: 4px;
+}

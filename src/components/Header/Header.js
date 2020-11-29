@@ -62,7 +62,9 @@ function Header() {
         </div>
       </section>
       <section className="header__profile">
-        <Avatar alt="dp" src="./logo192.png" className="header__profileIcon" />
+        <Avatar alt="dp" src="" className="header__profileIcon">
+          A
+        </Avatar>
       </section>
     </header>
   );

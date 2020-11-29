@@ -1,12 +1,12 @@
 .sidebar {
     background-color: rgb(72, 20, 73);
-    max-width: 300px;
+    flex: 0.2;
 }
 
 .sidebar__header {
     display: flex;
     align-items: center;
-    padding: 16px 16px;
+    padding: 13px 16px;
 }
 
 .sidebar__header:hover {
