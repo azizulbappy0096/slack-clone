@@ -13,7 +13,7 @@ function Message({userName, userURL, timeStamp, msg}) {
                     <small> {new Date(timeStamp * 1000).toString()} </small>
                 </div>
                 <div className="message__msg">
-    <p> {msg} </p>
+                    <p> {msg} </p>
                 </div>
             </section>
         </div>

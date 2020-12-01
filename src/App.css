@@ -5,4 +5,6 @@ body {
 .app__body {
   display: flex;
   min-height: 93vh;
+  max-height: 93vh;
+  /* overflow: ; */
 }

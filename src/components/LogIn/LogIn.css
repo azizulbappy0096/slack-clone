@@ -1,0 +1,39 @@
+.login {
+  min-height: 100vh;
+  text-align: center;
+  display: grid;
+  place-content: center;
+  background-color: rgb(255, 251, 251);
+}
+
+.login__container {
+  border-radius: 6px;
+  padding: 100px 140px;
+  background-color: white;
+  -webkit-box-shadow: -2px 2px 16px -2px rgba(0, 0, 0, 0.27);
+  -moz-box-shadow: -2px 2px 16px -2px rgba(0, 0, 0, 0.27);
+  box-shadow: -2px 2px 16px -2px rgba(0, 0, 0, 0.27);
+}
+
+.login__container > img {
+  width: 100px;
+  object-fit: contain;
+  margin-bottom: 20px;
+}
+
+.login__intro {
+  margin-bottom: 32px;
+}
+
+.login__intro > h1 {
+  font-size: 32px;
+}
+
+.login__intro > h6 {
+  font-size: 14px;
+}
+
+.login__container > .MuiButton-contained {
+  background-color: rgb(14, 126, 14) !important;
+  font-weight: 400 !important;
+}

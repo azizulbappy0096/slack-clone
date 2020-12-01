@@ -15,21 +15,28 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 // channel icon
 import ClearAllIcon from '@material-ui/icons/ClearAll';
+import { useStateValue } from "../../utils/StateProvider";
 
 
 function Sidebar() {
   const [channelsName, setChannelsName] = useState([]);
+  const [{user}] = useStateValue();
 
   useEffect(() => {
    
-    db.collection("user")
-    .doc("userId")
+    db
+    .collection("workStation")
+    .doc("youtube")
+    .collection("user")
+    .doc(user.id)
     .collection("channels")
     .onSnapshot(snapShot => {
       console.log(snapShot)
-      snapShot.docs.map(doc => {
-        setChannelsName(prev => [...prev, doc.data().name])
-      })
+      
+        setChannelsName(
+          snapShot.docs.map(doc => ({id: doc.id, name: doc.data().name}))
+        )
+     
     })
   }, [])
 
@@ -47,8 +54,8 @@ function Sidebar() {
       <section className="sidebar__options">
         <SidebarOption Icon={AlternateEmailIcon} title="Mentions & reactions" />
         <SidebarOption Icon={MoreVertIcon} title="More" />
-        <SidebarOption Icon={KeyboardArrowDownIcon} title="Channels" />
-        {channelsName.map(name => <SidebarOption SubIcon={ClearAllIcon} title={name} />)}
+        <SidebarOption Icon={KeyboardArrowDownIcon} addSidebarOption title="Channels" />
+        {channelsName.map(name => <SidebarOption SubIcon={ClearAllIcon} id={name.id} title={name.name} />)}
         {/* <SidebarOption SubIcon={ClearAllIcon} title="general" />
         <SidebarOption SubIcon={ClearAllIcon} title="random" />
         <SidebarOption SubIcon={ClearAllIcon} title="backups" /> */}

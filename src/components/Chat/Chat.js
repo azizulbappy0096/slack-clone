@@ -5,37 +5,44 @@ import Message from "../Message/Message";
 import TextBox from "../TextBox/TextBox";
 import db from "../../utils/firebaseConfig";
 
-
 // Material-ui Icons
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import StarIcon from "@material-ui/icons/Star";
 import PersonAddOutlinedIcon from "@material-ui/icons/PersonAddOutlined";
+import { useParams } from "react-router-dom";
+import { useStateValue } from "../../utils/StateProvider";
 
 function Chat() {
   const [starredChannel, setStarredChannel] = useState(false);
   const [channelMessages, setChannelMessages] = useState([]);
+  const { roomId } = useParams();
+  const [{user, currentChannel}] = useStateValue();
 
   useEffect(() => {
     db
+    .collection("workStation")
+    .doc("youtube")
     .collection("user")
-    .doc("userId")
-    .collection("channels")
-    .doc("roomID1")
-    .collection("messages")
-    .orderBy("timeStamp", "asc")
-    .onSnapshot(snapShot => {
-      snapShot.docs.map(doc => {
-        setChannelMessages(prev => [...prev, {
-          id: doc.id,
-          senderName: doc.data().senderName,
-          senderURL: doc.data().senderURL,
-          time: doc.data().timeStamp.seconds,
-          msg: doc.data().message
-        }])
-      })
-    })
-  }, [])
+      .doc(user?.id)
+      .collection("channels")
+      .doc(roomId)
+      .collection("messages")
+      .orderBy("timeStamp", "desc")
+      .onSnapshot((snapShot) => {
+        // setChannelMessages([])
+
+        setChannelMessages(
+          snapShot.docs.map((doc) => ({
+            id: doc.id,
+            senderName: doc.data()?.senderName,
+            senderURL: doc.data()?.senderURL,
+            time: doc.data()?.timeStamp?.seconds,
+            msg: doc.data()?.message,
+          }))
+        );
+      });
+  }, [roomId]);
 
   const handleStarred = () => {
     setStarredChannel((prev) => !prev);
@@ -46,7 +53,7 @@ function Chat() {
       <section className="chat__header">
         <div className="chat__headerTitle">
           <h4>
-            #general{" "}
+            #{currentChannel}
             {!starredChannel ? (
               <StarBorderIcon onClick={handleStarred} />
             ) : (
@@ -61,10 +68,15 @@ function Chat() {
         </div>
       </section>
       <section className="chat__message">
-        
-        {channelMessages.map(msg => <Message key={msg.id} userName={msg.senderName} userURL={msg.senderURL} timeStamp={msg.time} msg={msg.msg} />)}
-        {/* <Message userName="Azizul" msg="okay" />
-        <Message userName="Islam" msg="okay" /> */}
+        {channelMessages.map((msg) => (
+          <Message
+            key={msg.id}
+            userName={msg.senderName}
+            userURL={msg.senderURL}
+            timeStamp={msg.time}
+            msg={msg.msg}
+          />
+        ))}
       </section>
 
       <section className="chat__textBox">

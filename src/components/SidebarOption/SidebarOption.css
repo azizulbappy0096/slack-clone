@@ -1,6 +1,7 @@
 .sidebarOption {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     color: white;
     padding: 8px 16px;
     cursor: pointer;
@@ -10,27 +11,32 @@
     background-color: #350D36;
 }
 
-.sidebarOption > .MuiSvgIcon-root {
+.sidebarOption__left {
+    display: flex;
+    
+}
+
+.sidebarOption__left > .MuiSvgIcon-root {
     font-size: 16px;
 }
 
-.sidebarOption > .sidebarOption__subIcon {
+.sidebarOption__left  > .sidebarOption__subIcon {
     font-size: 14px !important;
     margin-left: 12px !important;
 }
 
-.sidebarOption > h4 {
+.sidebarOption__left  > h4 {
     font-size: 14px;
 }
 
-.sidebarOption > h5 {
+.sidebarOption__left  > h5 {
     font-size: 12px;
 }
 
-.sidebarOption > h4 {
+.sidebarOption__left  > h4 {
     margin-left: 8px;
 }
 
-.sidebarOption > h5 {
+.sidebarsidebarOption__left > h5 {
     margin-left: 8px;
 }

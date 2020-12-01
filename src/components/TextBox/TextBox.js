@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import "./TextBox.css";
+
+import db from '../../utils/firebaseConfig';
+import firebase from "firebase";
 
 // Material-ui icons
 import FormatBoldOutlinedIcon from '@material-ui/icons/FormatBoldOutlined';
@@ -13,12 +16,47 @@ import AlternateEmailIcon from "@material-ui/icons/AlternateEmail";
 import SentimentSatisfiedOutlinedIcon from '@material-ui/icons/SentimentSatisfiedOutlined';
 import AttachFileOutlinedIcon from '@material-ui/icons/AttachFileOutlined';
 import SendOutlinedIcon from '@material-ui/icons/SendOutlined';
+import { useParams } from 'react-router-dom';
+import { useStateValue } from '../../utils/StateProvider';
+
 
 function TextBox() {
+    const [userInput, setUserInput] = useState("");
+    const { roomId } = useParams();
+    const [{user}] = useStateValue();
+
+    const handleInput = (e) => {
+        const {value} = e.target;
+        setUserInput(value);
+    }
+
+    const handleSentMsg = (e) => {
+        e.preventDefault();
+
+        if(userInput.length > 0) {
+            db
+            .collection("workStation")
+            .doc("youtube")
+            .collection("user")
+            .doc(user?.id)
+            .collection("channels")
+            .doc(roomId)
+            .collection("messages")
+            .add({
+                message: userInput,
+                senderName: user?.name,
+                senderURL: "...",
+                timeStamp: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                setUserInput("")
+            })
+        }
+    }
+
     return (
         <div className="textBox">
-            <form className="textBox__form">
-                <input placeholder="Message #demo" />
+            <form onSubmit={handleSentMsg} className="textBox__form">
+                <input value={userInput} onChange={handleInput} placeholder="Message #demo" />
                 <div className="textBox__editor">
                     <div className="textBox__right">
                         <FormatBoldOutlinedIcon />
@@ -33,7 +71,7 @@ function TextBox() {
                         <AlternateEmailIcon />
                         <SentimentSatisfiedOutlinedIcon />
                         <AttachFileOutlinedIcon />
-                        <SendOutlinedIcon />
+                        <SendOutlinedIcon onClick={handleSentMsg} /> 
                     </div>
                 </div>
             </form>

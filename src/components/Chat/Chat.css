@@ -55,3 +55,11 @@
     background-color: rgb(231, 221, 221);
     border-radius: 4px;
 }
+
+.chat__message {
+    max-height: 60vh;
+    min-height: 60vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column-reverse;
+}
