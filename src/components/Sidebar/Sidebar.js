@@ -14,37 +14,60 @@ import AlternateEmailIcon from "@material-ui/icons/AlternateEmail";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 // channel icon
-import ClearAllIcon from '@material-ui/icons/ClearAll';
+import ClearAllIcon from "@material-ui/icons/ClearAll";
 import { useStateValue } from "../../utils/StateProvider";
+import { useParams } from "react-router-dom";
 
+// direct message icon
+import PersonIcon from "@material-ui/icons/Person";
 
 function Sidebar() {
   const [channelsName, setChannelsName] = useState([]);
-  const [{user}] = useStateValue();
+  const [directMsg, setDirectMsg] = useState([]);
+  const [currentWorkSpace, setCurrentWorkSpace] = useState(null);
+  const [{ user }] = useStateValue();
+  const { workSpaceId } = useParams();
 
   useEffect(() => {
-   
-    db
-    .collection("workStation")
-    .doc("youtube")
-    .collection("user")
-    .doc(user.id)
-    .collection("channels")
-    .onSnapshot(snapShot => {
-      console.log(snapShot)
-      
+    db.collection("workStation")
+      .doc(workSpaceId)
+      .collection("channels")
+      .onSnapshot((snapShot) => {
+        console.log(snapShot);
+
         setChannelsName(
-          snapShot.docs.map(doc => ({id: doc.id, name: doc.data().name}))
-        )
-     
-    })
-  }, [])
+          snapShot.docs.map((doc) => ({ id: doc.id, name: doc.data().name }))
+        );
+      });
+
+    db.collection("workStation")
+      .doc(workSpaceId)
+      .get()
+      .then((doc) => {
+        setCurrentWorkSpace(doc.data()?.name);
+      });
+  }, []);
+
+  useEffect(() => {
+    db.collection("workStation")
+      .doc(workSpaceId)
+      .collection("users")
+      .onSnapshot((snapShot) => {
+        setDirectMsg(
+          snapShot.docs.map((data) => {
+            if (data.data().name !== null && data.data().name.length > 0) {
+              return { id: data.id, name: data.data().name };
+            }
+          })
+        );
+      });
+  }, []);
 
   return (
     <div className="sidebar">
       <section className="sidebar__header">
         <h3>
-          LazyProgs
+          {currentWorkSpace}
           <KeyboardArrowDownIcon />
         </h3>
 
@@ -54,13 +77,32 @@ function Sidebar() {
       <section className="sidebar__options">
         <SidebarOption Icon={AlternateEmailIcon} title="Mentions & reactions" />
         <SidebarOption Icon={MoreVertIcon} title="More" />
-        <SidebarOption Icon={KeyboardArrowDownIcon} addSidebarOption title="Channels" />
-        {channelsName.map(name => <SidebarOption SubIcon={ClearAllIcon} id={name.id} title={name.name} />)}
-        {/* <SidebarOption SubIcon={ClearAllIcon} title="general" />
-        <SidebarOption SubIcon={ClearAllIcon} title="random" />
-        <SidebarOption SubIcon={ClearAllIcon} title="backups" /> */}
+        <SidebarOption
+          Icon={KeyboardArrowDownIcon}
+          addSidebarOption
+          title="Channels"
+        />
+        {channelsName.map((name) => (
+          <SidebarOption
+            SubIcon={ClearAllIcon}
+            id={name.id}
+            title={name.name}
+          />
+        ))}
+
         <br />
         <SidebarOption Icon={KeyboardArrowDownIcon} title="Direct messages" />
+        {directMsg.map((name) => {
+          if (name) {
+            return (
+              <SidebarOption
+              SubIcon={PersonIcon}
+              id={name?.id}
+              title={name?.name}
+            />
+            )
+          }
+        })}
       </section>
     </div>
   );

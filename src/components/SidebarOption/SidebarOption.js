@@ -3,12 +3,13 @@ import "./SidebarOption.css";
 
 import AddIcon from '@material-ui/icons/Add';
 import db from "../../utils/firebaseConfig";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useStateValue } from "../../utils/StateProvider";
 import { actionTypes } from "../../utils/reducer";
 
 function SidebarOption({ Icon, SubIcon, addSidebarOption, id, title }) {
   const history = useHistory();
+  const {workSpaceId} = useParams();
   const [{user}, dispatch] = useStateValue();
 
   const addChannel = () => {
@@ -16,9 +17,7 @@ function SidebarOption({ Icon, SubIcon, addSidebarOption, id, title }) {
     if(input) {
       db
       .collection("workStation")
-      .doc("youtube")
-      .collection("user")
-      .doc(user.id)
+      .doc(workSpaceId)
       .collection("channels")
       .add({
         name: input
@@ -33,7 +32,7 @@ function SidebarOption({ Icon, SubIcon, addSidebarOption, id, title }) {
         type: actionTypes.SET_CHANNEL,
         channel: title
       })
-      history.push(`/chat/${id}`)
+      history.push(`/client/${workSpaceId}/chat/${id}`)
     }
   }
 

@@ -9,9 +9,11 @@ import CloseIcon from "@material-ui/icons/Close";
 
 // Material-core
 import Avatar from "@material-ui/core/Avatar";
+import { useStateValue } from "../../utils/StateProvider";
 
 function Header() {
   const [isSearchBar, setIsSearchBar] = useState(false);
+  const [{user}] = useStateValue();
 
   const showSearchBar = () => {
     setIsSearchBar((prev) => !prev);
@@ -62,8 +64,8 @@ function Header() {
         </div>
       </section>
       <section className="header__profile">
-        <Avatar alt="dp" src="" className="header__profileIcon">
-          A
+        <Avatar alt="dp" src={user?.url} className="header__profileIcon">
+          {user?.name}
         </Avatar>
       </section>
     </header>

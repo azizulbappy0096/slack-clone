@@ -4,6 +4,7 @@ import "./Chat.css";
 import Message from "../Message/Message";
 import TextBox from "../TextBox/TextBox";
 import db from "../../utils/firebaseConfig";
+import firebase from "firebase";
 
 // Material-ui Icons
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
@@ -18,13 +19,12 @@ function Chat() {
   const [channelMessages, setChannelMessages] = useState([]);
   const { roomId } = useParams();
   const [{user, currentChannel}] = useStateValue();
+  const {workSpaceId} = useParams();
 
   useEffect(() => {
     db
     .collection("workStation")
-    .doc("youtube")
-    .collection("user")
-      .doc(user?.id)
+    .doc(workSpaceId)
       .collection("channels")
       .doc(roomId)
       .collection("messages")
@@ -48,6 +48,18 @@ function Chat() {
     setStarredChannel((prev) => !prev);
   };
 
+  const addPerson = () => {
+    const newEmail = prompt("Enter E-mail: ");
+
+    db
+    .collection("workStation")
+    .doc(workSpaceId)
+    .collection("users")
+    .add({
+      email: newEmail, name: null
+    })
+  }
+
   return (
     <div className="chat">
       <section className="chat__header">
@@ -63,7 +75,7 @@ function Chat() {
           <p> Add a topic </p>
         </div>
         <div className="chat__headerInfo">
-          <PersonAddOutlinedIcon />
+          <PersonAddOutlinedIcon onClick={addPerson} />
           <InfoOutlinedIcon />
         </div>
       </section>

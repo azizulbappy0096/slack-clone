@@ -1,4 +1,4 @@
-.login {
+.login, .workSpace {
   min-height: 100vh;
   text-align: center;
   display: grid;
@@ -6,7 +6,7 @@
   background-color: rgb(255, 251, 251);
 }
 
-.login__container {
+.login__container, .workSpace__container {
   border-radius: 6px;
   padding: 100px 140px;
   background-color: white;

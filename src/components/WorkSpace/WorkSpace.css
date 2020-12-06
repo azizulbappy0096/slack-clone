@@ -1,0 +1,28 @@
+.workSpace__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.workSpace__container > h1 {
+    margin-bottom: 32px;
+}
+
+.workSpace__container > .MuiButton-root {
+    background-color: rgb(196, 192, 192);
+    margin-bottom: 12px;
+}
+
+.workSpace__btn--logo { 
+    border-right: 2px solid grey !important;
+    margin-right: 20px !important;
+}
+
+.workSpace__addBtn {
+    margin-top: 12px;
+    cursor: pointer;
+}
+
+.workSpace__addBtn:hover {
+    color: green !important;
+}

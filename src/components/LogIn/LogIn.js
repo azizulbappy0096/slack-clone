@@ -3,7 +3,7 @@ import "./LogIn.css";
 
 import { Button } from '@material-ui/core';
 import firebase from "firebase";
-import { googleProvider } from '../../utils/firebaseConfig';
+import db, { googleProvider } from '../../utils/firebaseConfig';
 import { useStateValue } from '../../utils/StateProvider';
 import { actionTypes } from '../../utils/reducer';
 
