@@ -2,12 +2,14 @@ export const initialState = {
   user: null,
   currentWorkSpace: null,
   currentChannel: null,
+  ShowSidebar: false
 };
 
 export const actionTypes = {
   SET_USER: "Set__User",
   SET_WORKSPACE: "Set__WorkSpace",
   SET_CHANNEL: "Set__Channel",
+  SET_SIDEBAR: "Set__ShowSidebar"
 };
 
 const reducer = (state, action) => {
@@ -29,6 +31,11 @@ const reducer = (state, action) => {
         ...state,
         currentWorkSpace: action.workSpace,
       };
+    case actionTypes.SET_SIDEBAR:
+      return {
+        ...state,
+        ShowSidebar: action.sidebar
+      }  
     default:
       return state;
   }

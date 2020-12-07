@@ -40,7 +40,7 @@ function Header() {
 
         <div
           className="header__search--active"
-          style={isSearchBar ? { display: "block" } : { display: "none" }}
+          style={isSearchBar ? { display: "flex" } : { display: "none" }}
         >
           <div className="header__searchTop">
             <SearchIcon className="header__searchTop--icon" />

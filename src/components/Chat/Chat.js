@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./Chat.css";
 
 import Message from "../Message/Message";
@@ -13,13 +13,16 @@ import StarIcon from "@material-ui/icons/Star";
 import PersonAddOutlinedIcon from "@material-ui/icons/PersonAddOutlined";
 import { useParams } from "react-router-dom";
 import { useStateValue } from "../../utils/StateProvider";
+import StorageOutlinedIcon from '@material-ui/icons/StorageOutlined';
+import {actionTypes} from "../../utils/reducer";
 
 function Chat() {
   const [starredChannel, setStarredChannel] = useState(false);
   const [channelMessages, setChannelMessages] = useState([]);
   const { roomId } = useParams();
-  const [{user, currentChannel}] = useStateValue();
+  const [{user, currentChannel, ShowSidebar}, dispatch] = useStateValue();
   const {workSpaceId} = useParams();
+  const ref = useRef(null);
 
   useEffect(() => {
     db
@@ -44,6 +47,26 @@ function Chat() {
       });
   }, [roomId]);
 
+  useEffect(() => {
+    const removeEvent = () => {
+      dispatch({
+        type: actionTypes.SET_SIDEBAR,
+        sidebar: false
+        
+      });
+    }
+    console.log(ref.current)
+    if(ref && ShowSidebar) {
+      ref.current.addEventListener("click", removeEvent, false)
+    }
+
+    return() => {
+      ref.current.removeEventListener("click", removeEvent, false)
+    }
+   
+
+  }, [ShowSidebar === true])
+
   const handleStarred = () => {
     setStarredChannel((prev) => !prev);
   };
@@ -60,10 +83,19 @@ function Chat() {
     })
   }
 
+  const showSidebar = () => {
+    dispatch({
+      type: actionTypes.SET_SIDEBAR,
+      sidebar: true
+    });
+  }
+
   return (
-    <div className="chat">
+    <div className="chat" ref={ref} >
       <section className="chat__header">
         <div className="chat__headerTitle">
+          <StorageOutlinedIcon onClick={showSidebar} />
+          <div className="chat__headerTitle--mobile">
           <h4>
             #{currentChannel}
             {!starredChannel ? (
@@ -73,6 +105,8 @@ function Chat() {
             )}
           </h4>
           <p> Add a topic </p>
+          </div>
+
         </div>
         <div className="chat__headerInfo">
           <PersonAddOutlinedIcon onClick={addPerson} />

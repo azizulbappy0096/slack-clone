@@ -11,6 +11,7 @@ import LogIn from "./components/LogIn/LogIn";
 import WorkSpace from "./components/WorkSpace/WorkSpace";
 import { actionTypes } from "./utils/reducer";
 import db from "./utils/firebaseConfig";
+import Welcome from "./components/Welcome/Welcome";
 
 function App() {
   const [{ user }, dispatch] = useStateValue();
@@ -73,7 +74,7 @@ function App() {
                   <Chat />
                 </Route>
                 <Route path="/client/:workSpaceId">
-                  <h1> Welcome!!! </h1>
+                  <Welcome />
                 </Route>
               </Switch>
             </section>

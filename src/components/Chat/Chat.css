@@ -12,7 +12,12 @@
     border-bottom: 1px solid rgb(201, 197, 197);
 }
 
-.chat__headerTitle > h4 {
+.chat__headerTitle > .MuiSvgIcon-root {
+    margin-right: 12px;
+    display: none;
+}
+
+.chat__headerTitle--mobile > h4 {
     display: flex;
     align-items: center;
     margin-bottom: 4px;
@@ -20,24 +25,24 @@
     text-transform: lowercase;
 }
 
-.chat__headerTitle > h4 > .MuiSvgIcon-root {
+.chat__headerTitle--mobile > h4 > .MuiSvgIcon-root {
     font-size: 16px !important;
     margin-left: 4px;
     cursor: pointer;
 }
 
-.chat__headerTitle > h4 > .MuiSvgIcon-root:hover {
+.chat__headerTitle--mobile > h4 > .MuiSvgIcon-root:hover {
     background-color: rgb(231, 221, 221);
     border-radius: 4px;
 }
 
-.chat__headerTitle > p {
+.chat__headerTitle--mobile > p {
     font-size: 14px;
     cursor: pointer;
     color: grey;
 }
 
-.chat__headerTitle > p:hover {
+.chat__headerTitle--mobile > p:hover {
     color: rgb(49, 49, 168);
 }
 
@@ -70,4 +75,19 @@
     bottom: 0;
     left: 0;
     right: 0;
+}
+
+@media (max-width: 767px) {
+    .chat {
+        flex: 1;
+    }
+
+    .chat__headerTitle > .MuiSvgIcon-root {
+        display: block;
+    }
+
+    .chat__headerTitle {
+        display: flex;
+        align-items: center;
+    }
 }

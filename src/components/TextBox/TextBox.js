@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./TextBox.css";
 
 import db from "../../utils/firebaseConfig";
@@ -18,11 +18,36 @@ import AttachFileOutlinedIcon from "@material-ui/icons/AttachFileOutlined";
 import SendOutlinedIcon from "@material-ui/icons/SendOutlined";
 import { useParams } from "react-router-dom";
 import { useStateValue } from "../../utils/StateProvider";
+import MoreHorizOutlinedIcon from '@material-ui/icons/MoreHorizOutlined';
 
 function TextBox() {
   const [userInput, setUserInput] = useState("");
+  const [showMore, setShowMore] = useState(false);
+  const [showMoreBtn, setShowMoreBtn] = useState(true);
   const { workSpaceId, roomId } = useParams();
   const [{ user }] = useStateValue();
+
+useEffect(() => {
+  window.addEventListener("resize", () => {
+    console.log(window.innerWidth)
+    if(window.innerWidth < 568) {
+      setShowMoreBtn(true);
+    }else {
+      setShowMoreBtn(false);
+    }
+  })
+
+  return () => {
+    window.addEventListener("resize", () => {
+      console.log(window.innerWidth)
+      if(window.innerWidth < 568) {
+        setShowMoreBtn(true);
+      }else {
+        setShowMoreBtn(false);
+      }
+    })
+  }
+}, [])
 
   const handleInput = (e) => {
     const { value } = e.target;
@@ -50,6 +75,10 @@ function TextBox() {
     }
   };
 
+  const handleMore = () => {
+    setShowMore(prev => !prev);
+  }
+
   return (
     <div className="textBox">
       <form onSubmit={handleSentMsg} className="textBox__form">
@@ -64,9 +93,17 @@ function TextBox() {
             <FormatItalicOutlinedIcon />
             <CodeOutlinedIcon />
             <LinkOutlinedIcon />
+            {showMoreBtn && window.innerWidth < 568 ? <MoreHorizOutlinedIcon onClick={handleMore} /> : <div className="textBox__right--mobile" >
             <FormatListNumberedOutlinedIcon />
             <ListOutlinedIcon />
             <FormatAlignLeftOutlinedIcon />
+            </div>}
+            <div className="textBox__right--mobile" style={!showMore ? {display: "none"} : {display: "block"}} >
+            <FormatListNumberedOutlinedIcon />
+            <ListOutlinedIcon />
+            <FormatAlignLeftOutlinedIcon />
+            </div>
+            
           </div>
           <div className="textBox__left">
             <AlternateEmailIcon />

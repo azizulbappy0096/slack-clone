@@ -25,7 +25,7 @@ function Sidebar() {
   const [channelsName, setChannelsName] = useState([]);
   const [directMsg, setDirectMsg] = useState([]);
   const [currentWorkSpace, setCurrentWorkSpace] = useState(null);
-  const [{ user }] = useStateValue();
+  const [{ user, ShowSidebar }] = useStateValue();
   const { workSpaceId } = useParams();
 
   useEffect(() => {
@@ -64,7 +64,7 @@ function Sidebar() {
   }, []);
 
   return (
-    <div className="sidebar">
+    <div className="sidebar" style={ShowSidebar ? {left: 0} : {left: "-100%"}} >
       <section className="sidebar__header">
         <h3>
           {currentWorkSpace}
@@ -91,7 +91,7 @@ function Sidebar() {
         ))}
 
         <br />
-        <SidebarOption Icon={KeyboardArrowDownIcon} title="Direct messages" />
+        <SidebarOption Icon={KeyboardArrowDownIcon} title="Group members" />
         {directMsg.map((name) => {
           if (name) {
             return (
