@@ -42,4 +42,12 @@
   .login__container, .workSpace__container {
     padding: 40px 60px;
   }
+
+  .login__intro > h1 {
+    font-size: 24px;
+  }
+
+  .login__container > img {
+    width: 60px;
+  }
 }

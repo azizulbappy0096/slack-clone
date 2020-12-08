@@ -31,7 +31,7 @@ function LogIn() {
     return (
         <div className="login">
             <section className="login__container">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Slack_icon_2019.svg/800px-Slack_icon_2019.svg.png" alt="Slack_Logo" />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Slack_Logo_Pre_2019.svg/1920px-Slack_Logo_Pre_2019.svg.png" alt="Slack_Logo" />
 
             <section className="login__intro">
                 <h1> Sign in to Slack-Clone </h1>

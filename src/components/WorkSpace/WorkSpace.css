@@ -8,6 +8,24 @@
     margin-bottom: 32px;
 }
 
+.workSpace__container > img {
+    width: 80px;
+    object-fit: contain;
+    margin-bottom: 12px;
+    animation: spin 2s linear infinite;
+    -webkit-animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg);}
+    100% { transform: rotate(360deg);}
+}
+
 .workSpace__container > .MuiButton-root {
     background-color: rgb(196, 192, 192);
     margin-bottom: 12px;

@@ -14,6 +14,7 @@ function WorkSpace() {
   const [{ user }, dispatch] = useStateValue();
   const [PromiseWorkSpaces, setPromiseWorkSpaces] = useState([]);
   const [workSpaces, setWorkSpaces] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const history = useHistory();
 
@@ -24,13 +25,15 @@ function WorkSpace() {
       console.log(doc);
       
       setPromiseWorkSpaces( doc.docs.map((dc) => {
-        console.log(111111)
+  
         return docRef
           .doc(dc.id)
           .collection("users")
           .get()
           .then((USER) => {
-            
+            if(USER) {
+              setIsLoading(false)
+            }
              return USER.docs.map((userData) => {
                 console.log(userData.data());
                 if (userData.data().email === user.eMail) {
@@ -91,9 +94,10 @@ function WorkSpace() {
     <div className="workSpace">
       <section className="workSpace__container">
         <h1> Your Workspaces </h1>
+        {isLoading && <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Vector_Loading.svg/800px-Vector_Loading.svg.png" />}
         
         {workSpaces.map((innerData) => {
-            if(innerData) {
+            if(innerData && !isLoading) {
               return (
                 <Button
                 size="large"

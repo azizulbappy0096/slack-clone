@@ -10,13 +10,13 @@ import CloseIcon from "@material-ui/icons/Close";
 // Material-core
 import Avatar from "@material-ui/core/Avatar";
 import { useStateValue } from "../../utils/StateProvider";
-import {actionTypes} from "../../utils/reducer";
+import { actionTypes } from "../../utils/reducer";
 import UserInfo from "../Info/UserInfo";
 
 function Header() {
   const [isSearchBar, setIsSearchBar] = useState(false);
-  const [isOpenInfo, setIsOpenInfo] = useState(false)
-  const [{user}, dispatch] = useStateValue();
+  const [isOpenInfo, setIsOpenInfo] = useState(false);
+  const [{ user }, dispatch] = useStateValue();
   const headerRef = useRef();
 
   const showSearchBar = () => {
@@ -24,34 +24,33 @@ function Header() {
   };
 
   useEffect(() => {
-
-    dispatch({
-      type: actionTypes.SET_HEADERHEIGHT,
-      headerHeight: headerRef.current.offsetHeight
-    })
-
-    window.addEventListener("resize", () => {
+    if (headerRef.current) {
       dispatch({
         type: actionTypes.SET_HEADERHEIGHT,
-        headerHeight: headerRef.current.offsetHeight
-      })
-    });
+        headerHeight: headerRef.current.offsetHeight,
+      });
 
-    return () => {
-      window.removeEventListener("resize", () => {
+      window.addEventListener("resize", () => {
         dispatch({
           type: actionTypes.SET_HEADERHEIGHT,
-          headerHeight: headerRef.current.offsetHeight
-        })
+          headerHeight: headerRef.current.offsetHeight,
+        });
       });
-    };
 
-
+      return () => {
+        window.removeEventListener("resize", () => {
+          dispatch({
+            type: actionTypes.SET_HEADERHEIGHT,
+            headerHeight: headerRef.current.offsetHeight,
+          });
+        });
+      };
+    }
   }, []);
 
   const openInfo = () => {
-    setIsOpenInfo(prev => !prev);
-  }
+    setIsOpenInfo((prev) => !prev);
+  };
 
   return (
     <header className="header" ref={headerRef}>
@@ -98,7 +97,12 @@ function Header() {
         </div>
       </section>
       <section className="header__profile">
-        <Avatar onClick={openInfo} alt="dp" src={user?.url} className="header__profileIcon">
+        <Avatar
+          onClick={openInfo}
+          alt="dp"
+          src={user?.url}
+          className="header__profileIcon"
+        >
           {user?.name}
         </Avatar>
         <UserInfo display={isOpenInfo} />
