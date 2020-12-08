@@ -15,26 +15,30 @@ function WorkSpace() {
   const [PromiseWorkSpaces, setPromiseWorkSpaces] = useState([]);
   const [workSpaces, setWorkSpaces] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [noWork, setNoWork] = useState(false);
 
   const history = useHistory();
 
   useEffect(() => {
     const docRef = db.collection("workStation");
-    console.log(user.eMail)
+    console.log(user.eMail);
     db.collection("workStation").onSnapshot((doc) => {
-      console.log(doc);
-      
-      setPromiseWorkSpaces( doc.docs.map((dc) => {
-  
-        return docRef
-          .doc(dc.id)
-          .collection("users")
-          .get()
-          .then((USER) => {
-            if(USER) {
-              setIsLoading(false)
-            }
-             return USER.docs.map((userData) => {
+      console.log("docssssss>>>>>>>>>>.", doc);
+      if (doc.empty) {
+        setIsLoading(false);
+        setNoWork(true);
+      }
+      setPromiseWorkSpaces(
+        doc.docs.map((dc) => {
+          return docRef
+            .doc(dc.id)
+            .collection("users")
+            .get()
+            .then((USER) => {
+              if (USER) {
+                setIsLoading(false);
+              }
+              return USER.docs.map((userData) => {
                 console.log(userData.data());
                 if (userData.data().email === user.eMail) {
                   return { id: dc.id, name: dc.data().name };
@@ -42,20 +46,22 @@ function WorkSpace() {
                   return null;
                 }
               });
-          });
-      }))
+            });
+        })
+      );
     });
   }, []);
 
   useEffect(() => {
-    PromiseWorkSpaces.length > 0 && Promise?.all(PromiseWorkSpaces).then(value => {
-     setWorkSpaces(
-      value.map(v => {
-        return v[0]
-      })
-     )
-    })
-  }, [PromiseWorkSpaces])
+    PromiseWorkSpaces.length > 0 &&
+      Promise?.all(PromiseWorkSpaces).then((value) => {
+        setWorkSpaces(
+          value.map((v) => {
+            return v[0];
+          })
+        );
+      });
+  }, [PromiseWorkSpaces]);
 
   const redirect = (id, name) => {
     console.log(id, name);
@@ -70,36 +76,41 @@ function WorkSpace() {
     const workName = prompt("Enter your work-space name: ");
     const docRef = db.collection("workStation");
 
-    db.collection("workStation")
-    .add({
-      name: workName
-    })
-    .then(doc => {
-      docRef.doc(doc.id)
-      .collection("users")
-      .add({
-        email: user.eMail,
-        name: user.name
-      })
-      .then(() => {
-        history.push(`/client/${doc.id}`);
-      })
-    })
+    if (workName && workName.length > 0) {
+      db.collection("workStation")
+        .add({
+          name: workName,
+        })
+        .then((doc) => {
+          docRef
+            .doc(doc.id)
+            .collection("users")
+            .add({
+              email: user.eMail,
+              name: user.name,
+            })
+            .then(() => {
+              history.push(`/client/${doc.id}`);
+            });
+        });
+    }
   };
 
   console.log(workSpaces);
-
 
   return (
     <div className="workSpace">
       <section className="workSpace__container">
         <h1> Your Workspaces </h1>
-        {isLoading && <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Vector_Loading.svg/800px-Vector_Loading.svg.png" />}
-        
+        {isLoading && (
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Vector_Loading.svg/800px-Vector_Loading.svg.png" />
+        )}
+        {noWork && <p> You have no WorkSpaces</p>}
+
         {workSpaces.map((innerData) => {
-            if(innerData && !isLoading) {
-              return (
-                <Button
+          if (innerData && !isLoading) {
+            return (
+              <Button
                 size="large"
                 key={innerData?.id}
                 onClick={() => redirect(innerData?.id, innerData?.name)}
@@ -107,10 +118,9 @@ function WorkSpace() {
                 <DnsIcon className="workSpace__btn--logo" />
                 {innerData?.name}
               </Button>
-              )
-            }
-         
-          })}
+            );
+          }
+        })}
         <AddCircleOutlineRoundedIcon
           className="workSpace__addBtn"
           onClick={addWorkSpace}
