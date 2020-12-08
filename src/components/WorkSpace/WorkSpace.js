@@ -5,7 +5,7 @@ import Button from "@material-ui/core/Button";
 import AddCircleOutlineRoundedIcon from "@material-ui/icons/AddCircleOutlineRounded";
 import DnsIcon from "@material-ui/icons/Dns";
 import db from "../../utils/firebaseConfig";
-import firebase from "firebase";
+
 import { useHistory } from "react-router-dom";
 import { actionTypes } from "../../utils/reducer";
 import { useStateValue } from "../../utils/StateProvider";
@@ -77,6 +77,9 @@ function WorkSpace() {
       .add({
         email: user.eMail,
         name: user.name
+      })
+      .then(() => {
+        history.push(`/client/${doc.id}`);
       })
     })
   };

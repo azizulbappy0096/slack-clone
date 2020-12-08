@@ -24,6 +24,7 @@ function TextBox() {
   const [userInput, setUserInput] = useState("");
   const [showMore, setShowMore] = useState(false);
   const [showMoreBtn, setShowMoreBtn] = useState(true);
+  const [isBlue, setIsBlue] = useState(false)
   const { workSpaceId, roomId } = useParams();
   const [{ user }] = useStateValue();
 
@@ -51,6 +52,11 @@ useEffect(() => {
 
   const handleInput = (e) => {
     const { value } = e.target;
+    if(value.length > 0) {
+      setIsBlue(true)
+    }else {
+      setIsBlue(false)
+    }
     setUserInput(value);
   };
 
@@ -71,6 +77,7 @@ useEffect(() => {
         })
         .then(() => {
           setUserInput("");
+          setIsBlue(false)
         });
     }
   };
@@ -109,7 +116,7 @@ useEffect(() => {
             <AlternateEmailIcon />
             <SentimentSatisfiedOutlinedIcon />
             <AttachFileOutlinedIcon />
-            <SendOutlinedIcon onClick={handleSentMsg} />
+            <SendOutlinedIcon onClick={handleSentMsg} style={isBlue ? {color: "blue"} : {color: "rgb(92, 90, 90)"}} />
           </div>
         </div>
       </form>

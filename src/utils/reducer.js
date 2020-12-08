@@ -2,14 +2,16 @@ export const initialState = {
   user: null,
   currentWorkSpace: null,
   currentChannel: null,
-  ShowSidebar: false
+  ShowSidebar: false,
+  headerHeight: null
 };
 
 export const actionTypes = {
   SET_USER: "Set__User",
   SET_WORKSPACE: "Set__WorkSpace",
   SET_CHANNEL: "Set__Channel",
-  SET_SIDEBAR: "Set__ShowSidebar"
+  SET_SIDEBAR: "Set__ShowSidebar",
+  SET_HEADERHEIGHT: "Set__HeaderHeight"
 };
 
 const reducer = (state, action) => {
@@ -35,6 +37,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         ShowSidebar: action.sidebar
+      };
+    case actionTypes.SET_HEADERHEIGHT:
+      return {
+        ...state,
+        headerHeight: action.headerHeight  
       }  
     default:
       return state;

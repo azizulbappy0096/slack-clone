@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Header.css";
 
 // Material-Ui Icon
@@ -10,17 +10,51 @@ import CloseIcon from "@material-ui/icons/Close";
 // Material-core
 import Avatar from "@material-ui/core/Avatar";
 import { useStateValue } from "../../utils/StateProvider";
+import {actionTypes} from "../../utils/reducer";
+import UserInfo from "../Info/UserInfo";
 
 function Header() {
   const [isSearchBar, setIsSearchBar] = useState(false);
-  const [{user}] = useStateValue();
+  const [isOpenInfo, setIsOpenInfo] = useState(false)
+  const [{user}, dispatch] = useStateValue();
+  const headerRef = useRef();
 
   const showSearchBar = () => {
     setIsSearchBar((prev) => !prev);
   };
 
+  useEffect(() => {
+
+    dispatch({
+      type: actionTypes.SET_HEADERHEIGHT,
+      headerHeight: headerRef.current.offsetHeight
+    })
+
+    window.addEventListener("resize", () => {
+      dispatch({
+        type: actionTypes.SET_HEADERHEIGHT,
+        headerHeight: headerRef.current.offsetHeight
+      })
+    });
+
+    return () => {
+      window.removeEventListener("resize", () => {
+        dispatch({
+          type: actionTypes.SET_HEADERHEIGHT,
+          headerHeight: headerRef.current.offsetHeight
+        })
+      });
+    };
+
+
+  }, []);
+
+  const openInfo = () => {
+    setIsOpenInfo(prev => !prev);
+  }
+
   return (
-    <header className="header">
+    <header className="header" ref={headerRef}>
       <section className="header__searchBar">
         <div
           className="header__history"
@@ -64,9 +98,10 @@ function Header() {
         </div>
       </section>
       <section className="header__profile">
-        <Avatar alt="dp" src={user?.url} className="header__profileIcon">
+        <Avatar onClick={openInfo} alt="dp" src={user?.url} className="header__profileIcon">
           {user?.name}
         </Avatar>
+        <UserInfo display={isOpenInfo} />
       </section>
     </header>
   );

@@ -37,3 +37,9 @@
   background-color: rgb(14, 126, 14) !important;
   font-weight: 400 !important;
 }
+
+@media (max-width: 568px) {
+  .login__container, .workSpace__container {
+    padding: 40px 60px;
+  }
+}

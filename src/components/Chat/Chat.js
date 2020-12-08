@@ -19,10 +19,15 @@ import {actionTypes} from "../../utils/reducer";
 function Chat() {
   const [starredChannel, setStarredChannel] = useState(false);
   const [channelMessages, setChannelMessages] = useState([]);
+  const [msgPadding, setMsgPadding] = useState(null);
+  const [msgHeight, setMsgHeight] = useState(null);
+
   const { roomId } = useParams();
   const [{user, currentChannel, ShowSidebar}, dispatch] = useStateValue();
   const {workSpaceId} = useParams();
   const ref = useRef(null);
+  const chatHeaderRef = useRef(null);
+  const chatTextBoxRef = useRef(null);
 
   useEffect(() => {
     db
@@ -61,11 +66,26 @@ function Chat() {
     }
 
     return() => {
+      if(ref.current) {
       ref.current.removeEventListener("click", removeEvent, false)
+      }
     }
    
 
-  }, [ShowSidebar === true])
+  }, [ShowSidebar === true]);
+
+  useEffect(() => {
+    const handlePadding = () => {
+      setMsgHeight(ref.current.offsetHeight - chatHeaderRef.current.offsetHeight);
+      setMsgPadding(chatTextBoxRef.current.offsetHeight)
+    }
+    handlePadding();
+    window.addEventListener("resize", handlePadding);
+
+    return () => {
+      window.removeEventListener("resize", handlePadding);
+    };
+  }, [])
 
   const handleStarred = () => {
     setStarredChannel((prev) => !prev);
@@ -92,7 +112,7 @@ function Chat() {
 
   return (
     <div className="chat" ref={ref} >
-      <section className="chat__header">
+      <section className="chat__header" ref={chatHeaderRef}>
         <div className="chat__headerTitle">
           <StorageOutlinedIcon onClick={showSidebar} />
           <div className="chat__headerTitle--mobile">
@@ -104,7 +124,7 @@ function Chat() {
               <StarIcon onClick={handleStarred} />
             )}
           </h4>
-          <p> Add a topic </p>
+          <p> heheboy </p>
           </div>
 
         </div>
@@ -113,7 +133,7 @@ function Chat() {
           <InfoOutlinedIcon />
         </div>
       </section>
-      <section className="chat__message">
+      <section className="chat__message" style={setMsgHeight && {maxHeight: `${msgHeight}px`, minHeight: `${msgHeight}px`, paddingBottom: `${msgPadding}px`}} >
         {channelMessages.map((msg) => (
           <Message
             key={msg.id}
@@ -125,7 +145,7 @@ function Chat() {
         ))}
       </section>
 
-      <section className="chat__textBox">
+      <section className="chat__textBox" ref={chatTextBoxRef}>
         <TextBox />
       </section>
     </div>

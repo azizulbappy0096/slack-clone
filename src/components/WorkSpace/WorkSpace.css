@@ -11,6 +11,9 @@
 .workSpace__container > .MuiButton-root {
     background-color: rgb(196, 192, 192);
     margin-bottom: 12px;
+    width: 100%;
+    display: flex;
+    justify-content: start;
 }
 
 .workSpace__btn--logo { 

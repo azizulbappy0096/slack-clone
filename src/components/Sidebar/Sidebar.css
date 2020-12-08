@@ -2,6 +2,8 @@
     background-color: rgb(72, 20, 73);
     flex: 0.2;
     transition: all 0.56s linear 0.01s;
+    min-width: 200px;
+    max-width: 200px;
 }
 
 .sidebar__header {
@@ -41,10 +43,10 @@
     border: 1px solid rgb(82,38,83);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     .sidebar {
         position: absolute;
-        top: 0;
+        top: 49px;
         bottom: 0;
         left: -100%;
         z-index: 100;

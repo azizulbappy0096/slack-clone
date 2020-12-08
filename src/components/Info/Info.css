@@ -1,0 +1,40 @@
+.userInfo {
+    position: absolute;
+    right: 1%;
+    top: 110%;
+    background-color: rgb(245 245 245);
+    padding: 12px 0;
+    z-index: 1000;
+    border-radius: 4px;
+
+    -webkit-box-shadow: 2px 4px 5px 0px rgba(212,205,212,1);
+-moz-box-shadow: 2px 4px 5px 0px rgba(212,205,212,1);
+box-shadow: 2px 4px 5px 0px rgba(212,205,212,1);
+}
+
+.userInfo__avatar {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #c7bebe;
+    padding: 4px 12px;
+    padding-bottom: 8px;
+}
+
+.userInfo__avatar > .MuiAvatar-root {
+    margin-right: 8px;
+}
+
+.userInfo__status > h5 {
+    margin-bottom: 2px;
+}
+
+.userInfo__out > p {
+    font-size: 14px;
+    margin: 2px 0;
+    cursor: pointer;
+    padding: 4px 12px;
+}
+
+.userInfo__out > p:hover {
+    background-color: rgb(160, 153, 153);
+} 

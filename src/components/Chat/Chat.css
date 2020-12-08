@@ -15,6 +15,7 @@
 .chat__headerTitle > .MuiSvgIcon-root {
     margin-right: 12px;
     display: none;
+    cursor: pointer;
 }
 
 .chat__headerTitle--mobile > h4 {
@@ -63,8 +64,6 @@
 }
 
 .chat__message {
-    max-height: 65vh;
-    min-height: 65vh;
     overflow-y: auto;
     display: flex;
     flex-direction: column-reverse;
@@ -75,6 +74,7 @@
     bottom: 0;
     left: 0;
     right: 0;
+    background-color: white;
 }
 
 @media (max-width: 767px) {

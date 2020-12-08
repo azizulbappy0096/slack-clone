@@ -25,7 +25,7 @@ function Sidebar() {
   const [channelsName, setChannelsName] = useState([]);
   const [directMsg, setDirectMsg] = useState([]);
   const [currentWorkSpace, setCurrentWorkSpace] = useState(null);
-  const [{ user, ShowSidebar }] = useStateValue();
+  const [{ user, ShowSidebar, headerHeight }] = useStateValue();
   const { workSpaceId } = useParams();
 
   useEffect(() => {
@@ -64,7 +64,7 @@ function Sidebar() {
   }, []);
 
   return (
-    <div className="sidebar" style={ShowSidebar ? {left: 0} : {left: "-100%"}} >
+    <div className="sidebar" style={ShowSidebar ? {left: 0, top: headerHeight} : {left: "-100%"}} >
       <section className="sidebar__header">
         <h3>
           {currentWorkSpace}
@@ -97,7 +97,7 @@ function Sidebar() {
             return (
               <SidebarOption
               SubIcon={PersonIcon}
-              id={name?.id}
+              
               title={name?.name}
             />
             )
