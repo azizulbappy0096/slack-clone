@@ -21,9 +21,8 @@ function WorkSpace() {
 
   useEffect(() => {
     const docRef = db.collection("workStation");
-    console.log(user.eMail);
+
     db.collection("workStation").onSnapshot((doc) => {
-      console.log("docssssss>>>>>>>>>>.", doc);
       if (doc.empty) {
         setIsLoading(false);
         setNoWork(true);
@@ -39,7 +38,6 @@ function WorkSpace() {
                 setIsLoading(false);
               }
               return USER.docs.map((userData) => {
-                console.log(userData.data());
                 if (userData.data().email === user.eMail) {
                   return { id: dc.id, name: dc.data().name };
                 } else {
@@ -57,7 +55,12 @@ function WorkSpace() {
       Promise?.all(PromiseWorkSpaces).then((value) => {
         setWorkSpaces(
           value.map((v) => {
-            return v[0];
+            for (let i = 0; i < v.length; i++) {
+              if (v[i]) {
+                console.log("I am solid>>", v[i]);
+                return v[i];
+              }
+            }
           })
         );
       });

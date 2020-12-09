@@ -2,6 +2,7 @@
     flex: 0.9;
     height: 93vh;
     position: relative;
+    overflow: hidden;
 }
 
 .chat__header {

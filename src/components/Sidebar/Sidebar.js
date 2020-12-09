@@ -33,8 +33,6 @@ function Sidebar() {
       .doc(workSpaceId)
       .collection("channels")
       .onSnapshot((snapShot) => {
-        console.log(snapShot);
-
         setChannelsName(
           snapShot.docs.map((doc) => ({ id: doc.id, name: doc.data().name }))
         );
@@ -64,7 +62,10 @@ function Sidebar() {
   }, []);
 
   return (
-    <div className="sidebar" style={ShowSidebar ? {left: 0, top: headerHeight} : {left: "-100%"}} >
+    <div
+      className="sidebar"
+      style={ShowSidebar ? { left: 0, top: headerHeight } : { left: "-100%" }}
+    >
       <section className="sidebar__header">
         <h3>
           {currentWorkSpace}
@@ -86,6 +87,7 @@ function Sidebar() {
           <SidebarOption
             SubIcon={ClearAllIcon}
             id={name.id}
+            key={name.id}
             title={name.name}
           />
         ))}
@@ -94,13 +96,7 @@ function Sidebar() {
         <SidebarOption Icon={KeyboardArrowDownIcon} title="Group members" />
         {directMsg.map((name) => {
           if (name) {
-            return (
-              <SidebarOption
-              SubIcon={PersonIcon}
-              
-              title={name?.name}
-            />
-            )
+            return <SidebarOption SubIcon={PersonIcon} title={name?.name} key={name.id} />;
           }
         })}
       </section>

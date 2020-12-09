@@ -48,7 +48,7 @@ function Welcome() {
         sidebar: false,
       });
     };
-    console.log(ref.current);
+ 
     if (ref && ShowSidebar) {
       ref.current.addEventListener("click", removeEvent, false);
     }

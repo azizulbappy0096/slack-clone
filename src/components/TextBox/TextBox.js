@@ -72,7 +72,7 @@ useEffect(() => {
         .add({
           message: userInput,
           senderName: user?.name,
-          senderURL: "...",
+          senderURL: user?.url,
           timeStamp: firebase.firestore.FieldValue.serverTimestamp(),
         })
         .then(() => {

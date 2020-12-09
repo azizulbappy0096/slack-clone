@@ -19,45 +19,47 @@ function App() {
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        console.log(user);
         dispatch({
           type: actionTypes.SET_USER,
           user: {
             name: user.displayName,
             eMail: user.email,
             id: user.uid,
-            url: user.photoURL
+            url: user.photoURL,
           },
+        });
+
+        const docRef = db.collection("workStation");
+
+        db.collection("workStation").onSnapshot((doc) => {
+       
+          doc.docs.map((dc) => {
+            docRef
+              .doc(dc.id)
+              .collection("users")
+              .get()
+              .then((USER) => {
+                USER.docs.map((userData) => {
+                  if (
+                    userData.data().email === user.email &&
+                    (userData.data().name === null ||
+                      userData.data().name.length > 0)
+                  ) {
+                    docRef
+                      .doc(dc.id)
+                      .collection("users")
+                      .doc(userData.id)
+                      .update({
+                        name: user.displayName,
+                      });
+                  }
+                });
+              });
+          });
         });
       } else {
         console.log("nothing");
       }
-    });
-
-    const docRef = db.collection("workStation");
-    console.log(user?.eMail);
-    db.collection("workStation").onSnapshot((doc) => {
-      console.log(doc);
-      doc.docs.map((dc) => {
-        docRef
-          .doc(dc?.id)
-          .collection("users")
-          .get()
-          .then((USER) => {
-            USER.docs.map((userData) => {
-              console.log(userData.data());
-              if (
-                userData.data().email === user?.eMail &&
-                (userData.data().name === null ||
-                  userData.data().name.length > 0)
-              ) {
-                docRef.doc(dc?.id).collection("users").doc(userData.id).update({
-                  name: user?.name,
-                });
-              }
-            });
-          });
-      });
     });
   }, []);
 
